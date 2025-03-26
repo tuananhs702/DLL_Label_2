@@ -36,8 +36,8 @@ jobs:
 
       - name: Upload large files to Google Drive
         run: |
-          rclone copy model_550k.pkl gdrive:/MyDrive/BigFiles/ --progress
-          rclone copy word_embeddings_550k.json gdrive:/MyDrive/BigFiles/ --progress
+          rclone copy model_550k.pkl ggdrive:/Data_Automate/ --progress
+          rclone copy word_embeddings_550k.json ggdrive:/Data_Automate/ --progress
 
       - name: Commit and Push Small Output to GitHub
         env:
