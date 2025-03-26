@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install --upgrade pip
-          pip install numpy pandas scikit-learn xgboost underthesea jupyterlab notebook ipykernel papermill openpyxl joblib json
+          pip install numpy pandas scikit-learn xgboost underthesea jupyterlab notebook ipykernel papermill openpyxl joblib
 
       - name: Run Python Script
         run: |
@@ -28,6 +28,10 @@ jobs:
       - name: Install rclone
         run: |
           curl https://rclone.org/install.sh | sudo bash
+
+      - name: Verify rclone Installation
+        run: |
+          rclone version
 
       - name: Configure rclone
         run: |
@@ -46,6 +50,10 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git remote set-url origin https://$GH_PAT@github.com/tuananhs702/DLL_Label.git
-          git add .
-          git commit -m "Auto-update after running Python script" || echo "No changes to commit"
-          git push origin main
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "Auto-update after running Python script"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
